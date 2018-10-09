@@ -1,0 +1,142 @@
+%jsarticleはpt指定を9ptなどに設定できる(jarticleは10ptまで)
+\documentclass[a4paper,twocolumn,10pt]{jarticle}
+
+%画像
+\usepackage{graphicx}
+
+%タイムズフォント？
+\usepackage{times}
+
+%%FIXME
+%%適当に埋めましょう
+\title{A method of Protecting privacy by container}
+\author{システム情報工学研究科 博士前期課程1年\\201720763 張　世申\\ 指導教員　新城 靖}
+
+%%FIXME
+%%発表日に設定する
+\date{2017年11月22日}
+
+%%よくわからない
+\setcounter{tocdepth}{3}
+\setcounter{page}{1}
+
+%%余白等の設定？
+%%必要に応じて狭めて4ページに収めてください
+\setlength{\oddsidemargin}{-,1in}
+\setlength{\evensidemargin}{-,1in}
+\setlength{\topmargin}{-4em}
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{10in}
+\setlength{\parskip}{0em}
+\setlength{\topsep}{0em}
+\setlength{\columnsep}{3zw}
+
+
+\begin{document}
+
+\maketitle
+
+\pagestyle{plain}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%%ここから本文を書く
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+パソコンがネットワークと通信するときにプライバシを漏れる可能性がある。プライバシの漏洩は、ネットワーク通信先との通信中に起こる、また自分のパソコンにある個人情報は不正なアクセスによって盗まれることもある。本研究では、コンテナというOS層の仮想マシンを利用し、ホストから分離したOS環境を作り、プライバシ内容を実行中に検出し、その内容を保存する環境を提案する。
+\section{プライバシ検出}
+本研究では、２つの方面でプライバシの保護を行う。ひとつはホストマシン内に保存する個人情報、もうひとつは、ネットワーク接続中のリアルタイムなプライバシ保護。
+プライバシ保護のため、まずプライバシの検出が必要だ。ブラウザを例として、プライバシは訪問歴史や、フォーム>、Cookie、Sessionなどの内容が考えられる。ユーザトラッキングでよく利用したCookieファイルにはサーバが配る唯一なCookie IDやSession IDの情報がある。これらのユニークデータによく個人情報がある。ファイルにあるユニーク情報を得るため、２つの実行アプリのファイルを比較し、差分の内容にプライバシが含める可能性が高い。
+\subsection{双子の環境}
+差分の取るに実行必要な環境として、双子の環境という方法を提案する。双子の環境とは、一つのホストマシンで２つの同様な仮想環境を動け、同じ入力を与えられ環境だ。仮想環境において生成する２つ分のファイルに差分を取って、プライバシであるかどうかを判断する。
+
+\begin{description}
+ \item[仮想環境の選ぶ]\mbox{}
+
+一般的な仮想マシンは良い選択が、１個以上の仮想マシンを動くならホストのパフォーマンスが低下する。そしてホストはゲストOSのファイルシステムも直接的にアクセスできない。本研究では、コンテナというOSの層の仮想マシンを使う。OSサービスの仮想化でホストのパフォーマンスを効率的に使える。本研究はDocker\cite{docker}コンテナを使う。一方でOverlay File Systemでホストとファイル共用ができ、差分を取るためのファイルアクセスもよくできると考えている。
+\end{description}
+\begin{description}
+
+
+\item[差分を取る]\mbox{}
+
+まず、ゲスト生成したファイルはdiffアルゴリズムで差分を取る。diff\cite{diff}アルゴリズムは平均O(ND)の時間で完成でき、ファイルの違う内容が少ない場合でスピードが速い。また、HTTPSの情報が暗号化されたため、ウェブ通信内容の差分はMan-In-The-Middle Proxy\cite{mitm}を使ってHTTPとHTTPSの情報をキャプチャ。メールサーバ、文字エディタようなのプログラムはユーザ入力が多い。この場合では入力端の入力も考える必要がある。ホストでのキーボードやマウスなどの入力を２つのコンテナに送信するためにSelenium\cite{selenium}という自動テストツールを用いる。
+\end{description}
+
+
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=8cm]{img/img.eps}
+\caption{双子の環境}
+\label{figure:twin}
+\end{center}
+\end{figure}
+
+
+
+
+
+\section{環境シンクロナイズ}
+環境によるゲスト内容の影響を考えなければならない。２つのコンテナの実行環境が違うならプライバシ判断の結果に影響する。双子の環境をできるだけ同じにする必要がある。
+\subsection{ランダム性排除}
+アプリケーションはよくOSのエントロピーデバイスを読み込む。Linuxでは乱数生成器やUUIDなどのランダムナンバーデバイス。またマルチスレッドプログラムのスゲジュールもランダム性を引き起こす。コンテナエンジン、またゲストOSの一部を変えるで実現できる。
+\subsection{カーネル隔離}
+コンテナを隔離環境として、ホストOSのリソース、例えばメモリ、CPU、ファイル、IO、ネットワークの隔離がよくできる一方、ホストOSのカーネル情報は共有である。というとゲストはホストのCPUINFOやメモリ使用率、IOデバイスなどの情報が読める。ゲストOS環境に動くプログラムは自分が独立的な環境で実行しているように認識するのが要求するから。カーネル情報を一部隠す、また改ざんしたほうが良いと思う。
+
+
+\section{関連研究}
+Qubes-OS\cite{qubes}はセキュリティに注目するOSの一種である。Qubes-OSはHypervisorを使い、アプリケーションを違う安全性ドメインで実行し、リソースを隔離する。Qubes-OSはXenを使うから、ホストOSがなく、より良い隔離性を提供できる。
+Blink-Docker\cite{blink}はブラウザをCanvas Fingerprintを利用したユーザトラッキングから守る実行環境だ。Canvas FingerprintはハードウェアやOSのわずかな違うによってクライアントの唯一なタッグを生成できる。コンテナ技術を利用、毎回のFingerprint情報を変えることができる。
+
+
+
+
+\section{まとめ}
+本研究では人間の双子の研究に参考した双子の環境を提案した。Dockerコンテナに基づく、軽量で分離的な仮想環境を作り、プライバシを検出する。検出の誤差を減るために、DockerエンジンやコンテナOSカーネルの直すも考える必要がある。
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%% ここまで本文
+%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%FIXME
+%%bibファイルを指定する
+
+\begin{thebibliography}{1}
+
+\bibitem{docker}
+Docker - Build, Ship, and Run Any App, Anywhere: https://www.docker.com/, Accessed: 2017-11-22.
+
+\bibitem{diff}
+EUGENE W.MYERS, "An O(ND) Difference Algorithm and Its Variations",
+
+Algorithmica
+
+November 1986, Volume 1, Issue 1–4, pp 251–266 
+\bibitem{mitm}
+mitmproxy - an interactive man-in-the-middle proxy for HTTP and HTTPS : 
+
+https://mitmproxy.org/, 
+
+Accessed:2017-11-12.
+
+ \bibitem{selenium}
+ Selenium - Web Browser Automation:
+ 
+  http://www.seleniumhq.org/,
+  
+   Accessed: 2017-11-22.
+ 
+ \bibitem{qubes}
+Qubes OS - A reasonably secure operating system:
+
+https://www.qubes-os.org/
+ 
+Accessed: 2017-11-22.
+\bibitem{blink}
+P Laperdrix, W Rudametkin, B Baudry :Poster: Blink: A moving-target approach to fingerprint diversification 
+
+37th IEEE Symposium on Security and Privacy
+\end{thebibliography}
+
+\end{document}

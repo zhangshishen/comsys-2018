@@ -1,0 +1,189 @@
+\documentclass{ipsjpapers}
+\usepackage{comsys-poster}
+\usepackage[dvips]{graphicx}
+%\usepackage{latexsym}
+% 巻数，号数などの設定
+% \setcounter{巻数}{41}
+% \setcounter{号数}{6}
+% \setcounter{volpageoffset}{1234}
+% \受付{12}{2}{4}
+% \採録{12}{5}{11}
+
+% ユーザが定義したマクロなど．
+\makeatletter
+\let\@ARRAY\@array \def\@array{\def\<{\inhibitglue}\@ARRAY}
+\def\<{\(\langle\)}
+\def\>{\(\rangle\)}
+\def\|{\verb|}
+\def\Underline{\setbox0\hbox\bgroup\let\\\endUnderline}
+\def\endUnderline{\vphantom{y}\egroup\smash{\underline{\box0}}\\}
+\def\LATEX{\iLATEX\Large}
+\def\LATEx{\iLATEX\normalsize}
+\def\LATex{\iLATEX\small}
+\def\iLATEX#1{L\kern-.36em\raise.3ex\hbox{#1\bf A}\kern-.15em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}
+\def\LATEXe{\ifx\LaTeXe\undefined \LaTeX 2e\else\LaTeXe\fi}
+\def\LATExe{\ifx\LaTeXe\undefined \iLATEX\scriptsize 2e\else\LaTeXe\fi}
+\def\Quote{\list{}{}\item[]}
+\let\endQuote\endlist
+\def\TT{\if@LaTeX@e\tt\fi}
+\def\CS#1{\if@LaTeX@e\tt\expandafter\string\csname#1\endcsname\else
+	$\backslash$#1\fi}
+\
+%\checklines	% 行送りを確認する時に使用
+\begin{document}%{
+% 和文表題
+
+% write your title.
+\title{個人情報を含むファイルと\\通信を検出するための双子の環境の提案}
+% 英文表題
+% \etitle{How to Typeset Your Papers in {\LATEx} (Version 3)}
+
+% 所属ラベルの定義
+\affilabel{T}{筑波大学\\
+University of Tsukuba}
+
+\author{張 世申 \affiref{T}
+             \and 新城 靖 \affiref{T}
+             \and 三村 賢次郎 \affiref{T}}
+% 英文著者名
+% \eauthor{Hiroshi Nakashima\affiref{TUT}\affiref{Princeton}\and
+	% Yasuki Saito\affiref{NTT}}
+
+% 連絡先（投稿時に必要．製版用では無視される．）
+
+% 和文概要
+% \begin{abstract}
+% このパンフレットは，情報処理学会論文誌（以後，論文誌と呼ぶ）に投稿する論文，
+% 並びに掲載が決定した論文の最終版を，日本語 {\LaTeX} を用いて作成し提出するた
+% めのガイドである．このパンフレットでは，論文作成のためのスタイルファイルにつ
+% いて解説している．また，このパンフレット自体も論文と同じ方法で作成されている
+% ので，必要に応じてスタイルファイルとともに配布するソース・ファイルを参照され
+% たい．
+% \end{abstract}
+% % 英文概要
+% \begin{eabstract}
+% This pamphlet is a guide to produce a draft to be submitted to IPSJ Journal
+% and Transactions and the final camera-ready manuscript of a paper to appear
+% in the Journal\slash Transactions, using Japanese {\LaTeX} and special style
+% files.  Since the pamphlet itself is produced with the style files, it will
+% help you to refer its source file which is distributed with the style files.
+% \end{eabstract}
+
+% 表題などの出力
+\maketitle
+
+%}{
+
+% 本文はここから始まる
+\begin{document}
+
+\maketitle
+
+\pagestyle{plain}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%%ここから本文を書く
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{はじめに}
+PCで動作するアプリケーションは、Webブラウザのように明示的に通信をおこなうものだけでなく、オフィスツールのように、ユーザの意図しない通信を行うものがある。このような意図しない通信によりプライバシが漏れる可能性がある。また自分のパソコンにある個人情報は不正なアクセスによって盗まれることもある。本研究では、コンテナというOS層の仮想実行環境を利用し、個人情報が含まれているファイルと通信を検出することを提案する。そして、ファイルや通信から不用な個人情報を削除するツールを実装する。
+\section{双子の環境による個人情報の検出}
+本研究では、次の２つを対象として個人情報を検出する。
+\begin{itemize}
+\item 
+ファイルに保存された個人情報
+\item
+ネットワークに含まれる個人情報
+\end{itemize}
+たとえば、Webブラウザは、個人情報として訪問履歴や、フォームの内容、Cookieなどを保存する。ユーザトラッキングでよく利用されるCookieにはサーバが配るユニークなIDやセッション IDが含まれている。しかし、現在のWebブラウザやオフィスツールは、非常に複雑であり、これらの情報がどのファイルにどのような形式で保存されているかを調べることは容易ではない。そこで、本研究では、双子の環境を利用して、個人情報が含まれているファイルや通信を検出することを提案する。
+
+\subsection{双子の環境}
+双子の環境とは、プログラム、ファイルやデータファイル等の内容がほとんど同じであるような2つの仮想実行環境である。双子の実行環境は、人間の双子の研究を参考にして考案した。人間の双子の研究では、双子の医学的、遺伝子的、心理学的性格を調査する。双子が異なる環境で育てられた際に、どのような違いが生まれるかを調査する場合が多い。本研究で提案する双子の環境では、類似の２つの環境で2つのプログラムを実行し、同一の入力を与える。そして、2つのプログラムの動作上の相違点を検出する。
+\subsection{双子のブラウザ}
+双子のブラウザとは、双子の実行環境で動作する組になったブラウザであり、同一の入力を与え、同一のサーバをアクセスするものである。本研究では、双子のブラウザを用いてサーバによるユーザトラッキングを検出したいと考えている。ユーザトラッキングのしゅほうとしては、Cookie機能やタグを埋め込む手法がある。それ以外に、Flash CookieやHTML5のIndexedDBなどのストレージを使う方法もある。本研究では双子の環境を用いて全てのファイルの差分を調査するファイルの差分にユニークな情報が含まれる可能性が高い。差分を削除、また修正することでユーザトラッキングを阻止することができる。
+\subsection{コンテナによる仮想実行環境の実装}
+双子の実行環境を実現するためには、様々な手法が考えられる。一般的な仮想マシンではホストはゲストOSのファイルシステムを直接的にアクセスできない。本研究では、コンテナというOSの層の仮想マシンを使う。本研究はコンテナを実装する仕組みとしてDocker\cite{docker}を使う。Dockerは、Overlay File Systemというファイルシステムが利用可能である。このファイルシステムではホストとファイル共用ができ、差分を取るをためのファイルアクセスも容易である。
+ゲストOSが生成したテキストファイルはdiffコマンド等で差分を取ることができる。しかし全部のファイルはテキストではない。そこで本研究では、表１に示すようなツールを用いて差分を取る。
+
+
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=8cm]{img/1127.eps}
+\caption{双子の環境}
+\label{figure:twin}
+\end{center}
+\end{figure}
+
+
+\begin{table}
+\centering
+\caption{ファイルの保存によく使うフォーマットと差分取るのツール}
+\begin{tabular}{ |c|c| }
+ \hline
+ フォーマット&　ツール\\
+ \hline\hline
+ text & diff、son-diff \\
+ JSON & json-diff \\
+ XML & Canonical XML、diff \\
+ SQLite & sqldiff \\
+ Berkeley DB & db\_dump、diff\\ 
+ \hline
+\end{tabular}
+\end{table}
+
+本研究では、コンテナから発信される通信の内容を検査する。HTTPSのように情報が暗号化されていることもある。そこで本研究ではMan-In-The-Middle Proxy\cite{mitm}を使ってHTTPとHTTPSの情報をキャプチャする。
+
+メールリーダやテキストエディタのようなプログラムはユーザ入力がある。ホストでのキーボードやマウスなどの入力を２つのコンテナに送信する。また、双子のブラウザの実装にはSelenium\cite{selenium}という自動テストツールを用いる。
+
+
+
+
+
+\section{ランダム性排除}
+ファイルや通信の差分は、個人情報の違いだけでなく、その他のコンテナの動作の違いによっても生じる。そのような個人情報とは関係がない差分が大量に存在した場合、個人情報の検出が困難になる。本研究では、そのような動作の違いを排除し、双子の環境をできるだけ同じにする必要がある。
+
+アプリケーションはよくOSのエントロピーデバイスを読み込む。そのようなデバイスの例として、Unix系のOS /dev/randomがあげられる。またマルチスレッドプログラムのスゲジュールもランダム性を引き起こす。本研究では、コンテナエンジン、またゲストOSの一部を変えることで、これらのランダム性を排除したいと考えれいる。
+
+\section{関連研究}
+Qubes-OS\cite{qubes}は高いセキュリティを実現するためのOSである。Qubes-OSは仮想計算機(Xen)を用いて、アプリケーションを隔離されたドメインで実行する。Qubes-OSには、複数のドメインのファイルを比較する機能はない。
+
+Blink-Docker\cite{blink}はコンテナ中でブラウザを実行することで、Canvas Fingerprintを利用したユーザトラッキングからユーザを保護する。Canvas FingerprintはハードウェアやOSのわずかな違うによってクライアントを特定する。Blink-Dockerはコンテナ技術を利用し、毎回Fingerprintを変えることができる。本研究では、通信内容を検査し、そのようなユーザトラッキングを検出したいと考えている。
+
+
+\section{まとめ}
+本研究では人間の双子の研究に参考した双子の環境を提案した。本研究ではDockerコンテナを利用し、軽量で類似の仮想環境を作り、ファイルと通信内容に含まれる個人情報を検出する。検出の妨げとなるランダム性を排除するために、DockerエンジンやコンテナOSカーネルを修正することを考えている。
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%% ここまで本文
+%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%FIXME
+%%bibファイルを指定する
+\begin{thebibliography}{1}
+
+\bibitem{docker}
+Docker - Build, Ship, and Run Any App, Anywhere: https://www.docker.com/, Accessed: 2017-11-22.
+
+\bibitem{mitm}
+ Man-In-The-Middle proxy - an interactive man-in-the-middle
+proxy for HTTP and HTTPS
+https://mitmproxy.org/, accessed: 2017-11-22. 
+ \bibitem{selenium}
+ Selenium - Web Browser Automation:
+ 
+  http://www.seleniumhq.org/,accessed: 2017-10-18.
+\bibitem{qubes}
+ Qubes OS - A reasonably secure operating system:
+https://www.qubes-os.org/, accessed: 2017-11-22.
+\bibitem{blink}
+ P Laperdrix, W Rudametkin, B Baudry, "Blink: A moving-target approach to fingerprint di-
+versification" 37th IEEE Symposium on Security and Privacy, 2016 [Online]
+http://www.ieee-security.org/TC/SP2016/poster-abstracts/59-poster\_abstract.pdf
+
+\end{thebibliography}
+
+\end{document}

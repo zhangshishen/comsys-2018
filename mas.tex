@@ -1,0 +1,300 @@
+%jsarticleはpt指定を9ptなどに設定できる(jarticleは10ptまで)
+\documentclass[a4paper,twocolumn,10pt]{jarticle}
+
+%画像
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{courier}
+%タイムズフォント？
+
+
+%%FIXME
+%%適当に埋めましょう
+
+\title{\vspace{-1cm}個人情報及び個人識別子を含むファイルと通信を\\検出するための双子の環境}
+\author{システム情報工学研究科　コンピュータサイエンス専攻\\博士前期課程2年　Zhang Shishen\\指導教員  新城 靖\\}
+
+%%FIXME
+%%発表日に設定する
+
+
+%%よくわからない
+
+
+%%余白等の設定？
+%%必要に応じて狭めて4ページに収めてください
+\setlength{\oddsidemargin}{-,1in}
+\setlength{\evensidemargin}{-,1in}
+\setlength{\topmargin}{-4em}
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{10in}
+\setlength{\parskip}{0em}
+\setlength{\topsep}{0em}
+\setlength{\columnsep}{3zw}
+
+\date{}
+\begin{document}
+
+\maketitle
+
+\pagestyle{plain}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%%ここから本文を書く
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{はじめに}
+PCで動作するアプリケーションは、Webブラウザのように明示的に通信を行うものだけでなく、オフィスツールのように、ユーザの意図しない通信を行うものがある。Webブラウザであっても、ユーザトラッキングのために暗黙的に通信を行うことがある。このような意図しない通信により住所・氏名等の個人情報、およびcookieのように個人情報と結び付けられた個人識別子が送信されることがある。
+
+本研究では、コンテナというOS層の仮想実行環境を利用し、個人情報及び個人識別子が含まれているファイルと通信を検出することを提案する\cite{web}。そして、ファイルや通信から不要な情報を削除するツールを実装する。
+
+本研究では、 次の2つを対象として個人情報およ び個人識別子を 検出する。
+\begin{itemize}
+\item{ファイル}
+\item{ネットワーク通信}
+\end{itemize}
+
+現在のWebブラウザやオフィスツールは、非常に複雑であり、これらの識別子がどのファイルにどのような形式で保存されているかを調べることは容易ではない。本研究では、双子の環境を実装して、個人情報および個人識別子が含まれているファイルや通信を検出する。なお、以下では、個人情報と記載した時にも、個人情報と個人識別子の両方を含むものとする。
+
+
+\section{双子の環境と双子のブラウザによる個人情報の検出}
+
+双子の環境とは、プログラムファイルやデータファイル等の内容がほとんど同じであるような2つの仮想実行環境である(図1)。人間における双子の研究では、異なる双子が異なる環境で育てられた際にそれぞれの医学的、遺伝子的、心理学的性格を調査ことで、どのような違いが生まれるかを調査する場合が多い。本研究で提案する双子の環境では、類似の2つの環境で同一のプログラムをそれぞれ実行し、同一の入力を与える。そして、2つのプログラムの動作上の相違点を検出する。
+
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=8cm]{img/first.eps}
+\vspace*{-10mm}\caption{双子の環境}
+\label{figure:twin}
+\end{center}
+\end{figure}
+
+
+
+本研究室では、双子の環境で動作するWebブラウザとして、双子のブラウザを開発している\cite{comsys}。双子のブラウザとは、双子の環境で協調動作する2つのブラウザである。
+
+本研究では、双子のブラウザを用いてサーバによるユーザトラッキングを検出する。具体的にはブラウザが作成する全てのファイルの差分およびブラウザが発信するネットワーク通信の内容の差分を調査する。その差分にユーザトラッキングのため の情報が含まれる可能性が高い。 その差分を削除、 または修正することでユーザト ラッキングを阻止す ることができると思われる。
+
+
+
+
+\section{コンテナによる双子の環境の実装}
+本研究では、環境内のファイルを調査するが、一般的な仮想マシンではホストはゲスト OS のファイルシステムを直接的アクセスできないという問題がある。そこで本研究では、コンテナという OS 層の仮想マシンを使う。
+
+コンテナは、 仮想化技術の一種である。 VMware やXen、 KVMなどの一般的な仮想マシンとは違い、 コンテナはハードウェア層ではなく、 OS層の仮想 マシンである。 コンテナでは仮想環境はカーネルを 共用しているので、 その起動は速く、 必要な資源も 少ない。 コンテナはLinuxカーネルのcgroupと名 前空間の機能を利用し、 リソースの管理と隔離を提 供している。 メールリーダやテキストエディタのよ う なプログラムにはユーザ入力がある。 本研究では ホストでのキーボードやマウスなどの入力を 2つの コンテナで同じ様に入力する。
+
+
+本研究ではコンテナを実装する仕組みとして Dockerを使う。 Dockerでは、 Overlay File System というファイルシステムが利用可能である。このファイルシステムではゲストOSのファイルをホストOSからアクセスできるため、ファイルの差分を取得することが容易である。
+
+ゲストOSが生成したファイルはOverlay File SystemのUpper Layerに保存される。 したがって、 Upper directory のみ読み込むこ と でフ ァ イ ル内容の 変化を得ることができる。 本研究では、さらに2つのゲスト OS からOverlay File System で取得したファイルに対して差分を取る。
+
+\subsection{Overlay File System*}
+
+\begin{figure*}[ht]
+\begin{center}
+\includegraphics[width=16cm]{img/file.eps}
+\caption{Docker Overlay Filesystemによるファイル差分検出}
+\label{figure:file}
+\end{center}
+\end{figure*}
+
+\begin{figure*}[ht]
+\begin{center}
+\includegraphics[width=16cm]{img/net.eps}
+\caption{MITM-proxyを用いたHTTPのメッセージの差分検出}
+\label{figure:network}
+\end{center}
+\end{figure*}
+
+
+\section{ファイルの差分検出}
+\label{cha:file}
+
+図\ref{figure:file}に、ファイルの差分検出の仕組みを示す。まず、 同じイメージを利用する 2つのコンテナを起動し、対象となるプログラム (主に双子のブラウザ)を 実行する、 ホストからの入力を 2つ複製して、2つのコンテナを操作する。それからコンテナが生成し たファイルをホストOSで取得する。 そして、ファイルの種類ごとにファイル内容に前処理を行い、その結果をdiffコマンドに与える。
+
+\subsection{前処理とテキスト化}
+\label{sec:prep}
+プログラムでよく利用される保存形式としてはテキスト形式、データベース形式、および、マーシャリング形式の3つがある。マーシャリング形式としてはよくJSONとXMLがよく使われる。本研究ではWebブラウザFirefoxとGoogle Chromeのファイル保存形式を調査した。その結果、テキスト、JavaScript、JSON、XML、SQLite、BerkeleyDB、LevelDBの7種類あることがわかった。
+
+コンテナが出力するファイルがテキストファイルであれば、そのままdiffコマンドで差分を取ることができる。しかしながら、JSONやXMLでは、そのままdiffコマンドに与えても大量の出力がなされ、目的とする個人情報が埋もれてしまうという問題がある。また、diffコマンドは、バイナリファイルを扱うことができない。
+
+そこで本研究ではプログラムが生成したファイルに対して前処理を行い、diffで差分を取る前に識別しやすい形に変換する(図\ref{figure:file})。形式分類モジュールで、ファイルを形式で分類する。関係データベースはdumpツールでテキストを生成し、自動増加の主キー列を消して、属性内容でソートする。JSONファイルの標準化するために、json.toolを利用した。
+
+
+\subsection{タイムスタンプの扱い}
+\label{cha:timestamp}
+ネットワーク通信を行うプログラムは、様々なタイムスタンプをファイルに保存する。単純にファイルの差分を得ると、タイムスタンプの差によるものが大量に生成され、重要な差分が埋もれてしまう。
+
+本研究では、タイムスタンプを次のように分類して扱う。
+\begin{description}
+\item{・リモート: }
+リモートの通信相手が指定したもの。例えば、HTTPのLast-Modified:ヘッダに由来するもの。
+\item{・ローカル: }
+ローカルのOSからシステム・コールで取得したものに由来するもの。
+\end{description}
+リモート・タイムスタンプは、個人識別子としてユーザトラッキングに使われることがあることが知られている。一方、ローカル・タイムスタンプは、外部に発信されなければ、個人識別子にはなり得ない。
+
+本研究では、双子の環境で実行したタイム関連のシステム・コールgettimeofday()とclock\_gettime()をオーバーライドし、環境変数で指定された固定の日付を返す。
+
+このような処理を行ったとしても、アプリケーションの内部で独自にシステム・コールで得たタイムスタンプを加工して利用していることがある。この問題を解決するために、本研究では、テキスト化した後、ローカル・タイムスタンプとそれを加工したものと思われる数字を定数で置き換える。
+
+\subsection{ランダム性の排除}
+
+プログラムは多く予想出来ない行動を行う。その結果、ファイルの内容に差が生まれ、本来検出したい個人情報を覆い隠してしまう。そこで、本研究では、そのようなランダムな行動を排除する。
+
+まず、乱数によるプログラムのランダム行動を抑止するために、乱数デバイス/dev/urandomを置き換える。本研究では擬似乱数生成器デバイスドライバを作り、双子のコンテナのインスタンスに同じシードを与える。
+
+マルチスレッドやマルチプロセスのアプリケーションのスケジュールも実行結果に影響を与える。ChromeブラウザのTaskモデルは、 UIと IOスレッ ド以外にワーカスレッドが多数存在する。 一つの作 業がどのワーカスレッド により 実行されるか予想で きない。 その結果、 Chromeブラウザでの実験中に は、 TIDのような予測できない結果が出力される。 動的にワークスレード の数を調整することもある。そこで本研究では、テキスト化してダンプする時にスレッド識別子を含まないようにする
+
+\section{ネットワークメッセージの差分}
+\label{sec:net}
+本研究では、まず、HTTPを対象としてネットワークメッセージをキャプチャする。コンテナ内で実行されるプログラムが送受信されているメッセージは、HTTPSにより暗号化されてることがある。そこで、本研究では、MITM-Proxy(Man-In-The-Middle-Proxy)\footnote{https://mitmproxy.org/}を使って暗号化されたメッセージを復号しキャプチャする。
+
+ネットワーク通信の差分取る仕組みを図\ref{figure:network}に示す。HTTP通信の内容をKey-Valueの形式に変える。Keyとしては現在RequestのURLをQuery Stringを排除した部分と訪問の回数を用いている。Valueは残りのQuery String, Header, body, Response Header, bodyにする。これらのデータを\ref{sec:prep}節で述べたファイル差分検出モジュールに与える。
+
+
+\section{個人情報の保護*}
+\subsection{ファイルの保護}
+\subsection{ネットワーク通信の保護}
+
+
+
+
+
+
+
+ 
+ 
+\begin{table*}[ht]
+\caption{差分がないファイルと差分があるファイルの数}
+\centering
+\begin{tabular}{|p{2cm}|l|p{1.9cm}|p{1.9cm}|l|p{1.9cm}|p{1.9cm}|}
+\hline
+&\multicolumn{3}{|c|}{\footnotesize{Firefox}}&\multicolumn{3}{c|}{\footnotesize{Google Chrome}}\\
+\hline
+&\multirow{2}{1.5cm}{\footnotesize{個人情報がない}} &
+\multicolumn{2}{c|}{\footnotesize{差分がある}} &\multirow{2}{1.5cm}{\footnotesize{個人情報がない}}&
+\multicolumn{2}{c|}{\footnotesize{差分がある}} \\
+\cline{3-4}\cline{6-7}
+  & & \footnotesize{不明なバイナリ} & \footnotesize{テキストと扱えるバイナリ(行数)}& &\footnotesize{不明なバイナリ} & \footnotesize{テキストと扱えるバイナリ(行数)} \\
+\hline
+\footnotesize{更新されたファイル}&\multicolumn{1}{r|}{\footnotesize{52}}&\multicolumn{1}{r|}{\footnotesize{0}}&\multicolumn{1}{r|}{\footnotesize{7(28)}}  & \multicolumn{1}{r|}{\footnotesize{98}} & \multicolumn{1}{r|}{\footnotesize{5}} & \multicolumn{1}{r|}{\footnotesize{47(114)}} \\
+\hline
+\footnotesize{乱数生成器の置き換え}&\multicolumn{1}{r|}{\footnotesize{55}}&\multicolumn{1}{r|}{\footnotesize{0}}&\multicolumn{1}{r|}{\footnotesize{4(10)} }& \multicolumn{1}{r|}{\footnotesize{128} }& \multicolumn{1}{r|}{\footnotesize{5} }& \multicolumn{1}{r|}{\footnotesize{17(46)}} \\
+\hline
+\footnotesize{ローカルタイムスタンプの固定}&\multicolumn{1}{r|}{\footnotesize{55}}&\multicolumn{1}{r|}{\footnotesize{0}}&\multicolumn{1}{r|}{\footnotesize{4(8)} }&  \multicolumn{1}{r|}{\footnotesize{128} }& \multicolumn{1}{r|}{\footnotesize{5} }&\multicolumn{1}{r|}{\footnotesize{17(41) }}\\
+\hline
+\footnotesize{前処理後}&\multicolumn{1}{r|}{\footnotesize{55}}&\multicolumn{1}{r|}{\footnotesize{0}}&\multicolumn{1}{r|}{\footnotesize{4(8)}} &\multicolumn{1}{r|}{ \footnotesize{136} }& \multicolumn{1}{r|}{\footnotesize{5} }&\multicolumn{1}{r|}{\footnotesize{9(15)}}\\
+\hline
+\end{tabular}
+\label{fig:result}
+\end{table*}
+
+\begin{table*}[ht]
+
+
+
+\caption{ファイルの差分の例}
+\centering
+
+\begin{tabular}{ |l|p{4cm}|p{4cm}| }
+
+ \hline
+ \footnotesize{ファイル名}　&\footnotesize{コンテナ1}　&\footnotesize{コンテナ2}\\
+ \hline
+ \footnotesize{cookies.sqlite} & \footnotesize{value = 132=S1fjWe4xjUJJowuImYQyi...} & \footnotesize{value = 132=ablTT1GOqBlYlBX-MQ...}\\
+\hline
+ \footnotesize{places.sqlite} & \footnotesize{guid = xhIxtPu6zAJ7} & \footnotesize{guid = IlfETnEs0Dr4}\\
+\hline
+ \footnotesize{sessionstore.js} & \footnotesize{"docshellUUID": "\{4c4508da-9468-430b-8eac- 0484dcc43e5d\}"} & \footnotesize{"docshellUUID": "\{bfcff6ba-42c2-4731-a65c- ae1ba7b1cc0e\}"}\\
+ \hline
+\footnotesize{prefs.js} & \footnotesize{user\_pref("browser.slowStartup. averageTime", 14971)} & \footnotesize{user\_pref("browser.slowStartup. averageTime", 18103)}\\
+\hline
+\end{tabular}
+\label{fig:data}
+\end{table*}
+
+
+
+
+
+
+
+\section{実験}
+\subsection{双子のブラウザが生成したファイルの差分}
+\label{sec:file}
+
+本研究室ではFirefoxとGoogle Chromeで双子のブラウザを実装している。Docker と Overlay File System が使用できることからにホストOSはUbuntuを選んだ。実験ではホストOSでブラウザを操作して、ファイルとネットワーク通信の内容を取得し、差分の内容を取った。今回、ユーザトラッキングを行っている代表的なWebサイトとしてGoogleを選択しhttp://www.google.com/を訪問する実験を行った。これは、ログインを必要としない簡単なサイトである。
+
+\subsubsection{Firefox}
+まずFirefoxブラウザを双子のブラウザとして双子の環境で実行した。コンテナの全てのファイルの変化をリストアップしたところ、全部で59個のファイルが作成された。テキスト化しdiffコマンドで差分を取った結果は全部28行であった。\ref{cha:file}章で述べた方法に従ってテキスト化した差分を削減した結果、最終的に差分は8行だった。識別できないバイナリファイルはなかった。
+
+表\ref{fig:data}に、発見した差分の一部を示す。cookies.sqliteには、HTTP Cookiesが保存されていることがわかる。places.sqliteは、訪問履歴を保持するファイルである。その中に、アクセスしたURLが保存されている。このように、URLの中に、ユーザトラッキングに利用可能なタグが埋め込まれていることがわかる。
+
+この実験の結果、提案手法により、ファイルを特定し、使用者の識別子を検出することができ、ユーザトラッキングに使われる個人識別情報が含まれることが確認された。
+
+\subsubsection{Chrome}
+
+2番目の実験はGoogle Chromeで行った。結果を表\ref{fig:result}に表す。差分があるファイルはFirefoxより多い。識別できないバイナリファイルが5個残された。
+
+\label{sec:one}
+\subsection{ネットワーク通信内容の差分}
+ブラウザが行うネットワーク通信の内容の差分を調査した。訪問したサイトは、\ref{sec:file}節と同じである。
+
+全部の通信の数は21個あり、テキスト形式のファイル以外にpngが6個、icoが1個あった。20個のメッセージの内容に差分があり、1番目の通信だけは差分がなかった。ネットワーク通信の差分はタイムスタンプと重複を除き全部で22行あった。応答メッセージの内容に差分があるファイルが2個あった。それらのURLはwww.google.comとwww.google.com/gen\_204であった。また、URLが違う通信の数は3個あった。
+
+メッセージの内容にはcookiesが現れている。これは、cookies.sqlite(表\ref{fig:data})にも含まれている。
+\begin{table*}[ht]
+\caption{ネットワーク通信差分の例}
+\centering
+
+\begin{tabular}{ |l|p{4cm}|p{4cm}| }
+
+ \hline
+ \footnotesize{URL}　&\footnotesize{コンテナ1}　&\footnotesize{コンテナ2}\\
+ \hline
+ \footnotesize{www.google.com} & \footnotesize{Cookie:1P\_JAR=2017-12-12-04,NID=119=BgA6eL4YT9Q...} & \footnotesize{Cookie:1P\_JAR=2017-12-12-04,NID=rzmrga\_L3s...}\\
+\hline
+ \footnotesize{www.google.com/gen\_204} & \footnotesize{ei:pdcsW5TSLIb28AXosLGYBA} & \footnotesize{ei:pdcsW-vCDMfS8QWq-I34Bg}\\
+\hline
+ \footnotesize{ssl.gstatic.com/gb/images/i1\_1967ca6a.png} & \footnotesize{age:253629} & \footnotesize{age:253628}\\
+ \hline
+
+\end{tabular}
+\label{fig:data}
+\end{table*}
+
+
+\section{関連研究}
+Qubes-OS\cite{qubes}は高いセキュリティを実現するためのOSである。 Qubes-OSは仮想計算機モニタ(Xen)を用いて、アプリケーションを隔離された仮想実行環境で実行する。Qubes-OSには、複数の仮想実行環境のファイルを比較する機能はない。
+
+Blink-Docker\cite{blink}はコンテナ中でブラウザを実行することで、Canvas Fingerprintを利用したユーザトラッキングからユーザを保護する。Canvas Fingerprint はハードウェアや OS のわずかな違いによってクライアントを特定する手法である。Blink-Dockerはコンテナ技術を利用し、毎回 Fingerprint を変えることができる。本研究では、通信内容を検査し、そのようなユーザトラッキングを検出したいと考えている。
+
+
+
+\section{まとめ}
+本研究では人間の双子の研究に参考した双子の環境を提案した。本研究ではDockerコンテナを利用し、軽量で類似の仮想環境を作り、ファイルと通信内容に含まれる個人情報を検出する。
+
+本研究室で開発された双子のブラウザを双子の環境で実行し、それらが生成するファイルの差分を調査するツールを実装した。また、Man-In-The-Middle Proxyを用いて、通信内容を比較するツールを実装した。現在の実装では扱えないバイナリファイルの形式がある。今後は、複雑なサイトや内容がよく変わるサイトも実験を行う。また、ネットワークとファイル間の関連も調査する。そして、ファイルや通信内容から不要な個人情報を自動的に削除するツールを実装する。
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%% ここまで本文
+%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%FIXME
+%%bibファイルを指定する
+\begin{thebibliography}{1}
+
+\bibitem{qubes}
+ {\small Qubes OS - A reasonably secure operating system: https://www.qubes-os.org/, accessed: 2017-11-22.}
+\bibitem{blink}
+ P Laperdrix, W Rudametkin, B Baudry: "Blink: A moving-target approach to fingerprint diversification" 37th IEEE Symposium on Security and Privacy, Poster Session, [Online]
+http://www.ieee-security.org/TC/SP2016/poster-abstracts/59-poster\_abstract.pdf, 　(2016).
+\bibitem{comsys}
+張 世申,新城 靖,三村 賢次郎: "個人情報を含むファイルと通信を検出ための双子の環境の提案",情報処理学会第29回コンピュータシステムシンポジウム ポスターセッション,　2ページ(2017).
+\bibitem{web}
+三村 賢次郎,新城 靖,張 世申:　"Webサービスごとに隔離されたブラウジング環境の提案", 同上.
+\end{thebibliography}
+
+\end{document}
