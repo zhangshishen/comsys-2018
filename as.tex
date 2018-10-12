@@ -5,14 +5,16 @@
 \usepackage{graphicx}
 \usepackage{multirow}
 \usepackage{courier}
+
+
 %タイムズフォント？
 
 
 %%FIXME
 %%適当に埋めましょう
 
-\title{\vspace{-1cm}個人情報及び個人識別子を含むファイルと通信を\\検出するための双子の環境}
-\author{システム情報工学研究科　コンピュータサイエンス専攻\\博士前期課程2年　Zhang Shishen\\指導教員  新城 靖\\2018年7月10日}
+\title{個人情報及び個人識別子を含むファイルと通信を\\検出するための双子の環境}
+\author{張 世申　三村 賢次郎　新城 靖}
 
 %%FIXME
 %%発表日に設定する
@@ -32,12 +34,21 @@
 \setlength{\topsep}{0em}
 \setlength{\columnsep}{3zw}
 
-\date{}
+
+
+
 \begin{document}
+
+\twocolumn[\begin{@twocolumnfalse}\maketitle
+\begin{abstract}
+インタネットユーザは普段ネットワークサービスを利用する時に、プライバシデータがサービス提供者に収集されることがよくある。機械学習ブームの原因でユーザデータの重要性がより高くなる。サービスの提供者は自分のアプリケーションの体験を向上させるため、ユーザの個人データを分析、販売することがよくある。通常のログインを通じて情報漏洩とは違い、ユーザがログインしなくてもユーザトラッキングの手段でユーザのプライバシが漏れることもよく発生する。これらのユーザの身元を識別できるタグは、広告やオークションのウェブサービスに利用され、ユーザの使用に悪影響をもたらすこともよく発生する。本研究では、ユーザプライバシの保護を目標として、ユーザトラッキングに使われる情報を検出、保護したい。そこで本研究ではDockerコンテナ技術を利用し、双子の環境というユーザトラッキングを検出できるアプリケーションの仮想実行環境を提案した。双子の環境を利用する双子のブラウザを実装し、ユーザトラッキングを検出した。
+\end{abstract}
+\vspace*{20mm}
+\end{@twocolumnfalse}]
+
 
 \maketitle
 
-\pagestyle{plain}
 
 %%%%%%%%%%%%%%%%%%%%%%%
 %%ここから本文を書く
@@ -64,7 +75,7 @@ PCで動作するアプリケーションは、Webブラウザのように明示
 \begin{figure}[t]
 \begin{center}
 \includegraphics[width=8cm]{img/first.eps}
-\vspace*{-10mm}\caption{双子の環境}
+\caption{双子の環境}
 \label{figure:twin}
 \end{center}
 \end{figure}
@@ -127,12 +138,16 @@ PCで動作するアプリケーションは、Webブラウザのように明示
 ネットワーク通信を行うプログラムは、様々なタイムスタンプをファイルに保存する。単純にファイルの差分を得ると、タイムスタンプの差によるものが大量に生成され、重要な差分が埋もれてしまう。
 
 本研究では、タイムスタンプを次のように分類して扱う。
+
+
 \begin{description}
 \item{・リモート: }
 リモートの通信相手が指定したもの。例えば、HTTPのLast-Modified:ヘッダに由来するもの。
 \item{・ローカル: }
 ローカルのOSからシステム・コールで取得したものに由来するもの。
 \end{description}
+
+
 リモート・タイムスタンプは、外部に発信されることが想定されている。例えば、HTTPの応答メッセージに含まれたLast-Modified.ヘッダの値は、同じコンテンツを再取得する時に、要求メッセージのif-Modified-Since.ヘッダに含まれて発信される。この値は、個人識別子としてユーザトラッキングに使われることがあることが知られている。
 
 一方、ローカル・タイムスタンプは、外部に発信されなければ、個人識別子にはなり得ない。したがって、双子の環境の実装では、ローカル・タイムスタンプの違いを排除したい。本研究では、双子の環境で実行したタイム関連のシステム・コールgettimeofday()とclock\_gettime()をオーバーライドする。そのため、本研究で作成した動的リンクライブラリをLD\_PRELOADで置き換える。置き換えたシステム・コールは、環境変数で指定された固定の日付を返す。
@@ -150,13 +165,39 @@ PCで動作するアプリケーションは、Webブラウザのように明示
 
 \section{ネットワークメッセージの差分}
 \label{sec:net}
-本研究では、まず、HTTPを対象としてネットワークメッセージをキャプチャする。コンテナ内で実行されるプログラムが送受信されているメッセージは、HTTPSにより暗号化されてることがある。そこで、本研究では、MITM-Proxy(Man-In-The-Middle-Proxy)\footnote{https://mitmproxy.org/}を使って暗号化されたメッセージを復号しキャプチャする。
+本研究では、まず、HTTPを対象としてネットワークメッセージをキャプチャする。コンテナ内で実行されるプログラムが送受信されているメッセージは、HTTPSにより暗号化されてることがある。そして、多数なHTML5やJavascriptの新機能もよく支持することが要求されている。そこで、本研究では、MITM-Proxy(Man-In-The-Middle-Proxy)\footnote{https://mitmproxy.org/}を使ってHTTPやHTTPSの通信をキャプチャする。MTIM-ProxyはHTTPS通信のキャプチャができ、Keep-Aliveなどの持続的接続機能もつける。
 
 ネットワーク通信の差分取る仕組みを図\ref{figure:network}に示す。HTTP通信の内容をKey-Valueの形式に変える。Keyとしては現在RequestのURLをQuery Stringを排除した部分と訪問の回数を用いている。Valueは残りのQuery String, Header, body, Response Header, bodyにする。これらのデータを\ref{sec:prep}節で述べたファイル差分検出モジュールに与える。
 
 
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=8cm]{img/tag.eps}
+\caption{tag protection}
+\label{figure:tag}
+\end{center}
+\end{figure}
 
 
+\section{差分内容の保護と隔離}
+
+トラッキングに使われる嫌疑があったタグを二回目サーバを訪問する時に、サーバが正しい認識できないような形に変える必要がある。図\ref{figure:tag}のように、一回目の通信で生成した新しいタグをそして、タグの隔離効果をテストするため、修正前の元のタグはホストに保存しなければならない。ファイルとネットワーク通信の差分の対応は違う。
+
+\subsection{ファイルの差分の対応}
+ファイルの差分内容は全部diffコマンドで見つかったから、出力ファイルは解析し、オリジナルファイルのふさわしい部分を処理する必要がある。ファイルの形によって処理手段は違うから、次のように扱う。
+
+\begin{description}
+\item{・テキストファイル: }
+テキストファイルの対応は、まずdiffの出力ラインから差分タグを検出、差分タグを双子の環境の各ホスト環境のストレージに保存する。それからファイル名でゲストOSのファイルシステムに対応したファイルをawkで差分タグを直す。直したタグは直した前のタグと同じように保存する。
+\item{・データベース: }
+テキストファイルと同じように差分タグを検出、保存する。タグの直すはawkではなく、データベースの管理ツールを利用して簡単で直せる。関係型データベースはSQLのupdateを利用し、No-SQLは直接にKey-Valueを直す。
+\item{・バイナリファイル: }
+
+\end{description}
+\subsection{ネットワーク通信の差分の対応}
+ネットワークの通信の差分タグは通信中にプロキシで直せるが、ブラウザの動作に影響があるから
+\subsection{ディレクトリのオプティマイズ}
+ネットワークの通信の差分タグは通信中にプロキシで直せるが、ブラウザの動作に影響があるから
 
 
 
@@ -215,19 +256,20 @@ PCで動作するアプリケーションは、Webブラウザのように明示
 \label{fig:data}
 \end{table*}
 
+\begin{table*}[ht]
 \caption{ネットワーク通信の差分の例}
 \centering
 
-\begin{tabular}{ |l|p{6cm}|p{6cm}| }
+\begin{tabular}{ |p{3.5cm}|p{5cm}|p{5cm}| }
 
  \hline
  \footnotesize{URL}　&\footnotesize{コンテナ1}　&\footnotesize{コンテナ2}\\
  \hline
- \footnotesize{www.google.com} & \footnotesize{Cookie:1P_JAR=2017-12-12-04,NID=119=BGA6eL4YT9Q...} & \footnotesize{Cookie:1P_JAR=2017-12-12-04,NID=rzmrga_L3s...}\\
+ \footnotesize{www.google.com} & \footnotesize{Cookie:1P\_JAR=2017-12-12-04,NID=119=BGA6eL4YT9Q...} & \footnotesize{Cookie:1P\_JAR=2017-12-12-04,NID=rzmrga\_L3s...}\\
 \hline
  \footnotesize{www.google.com/gen\_204} & \footnotesize{ei:pdcsW5TSLIb28AXosLGYBA} & \footnotesize{ei:pdcsW-vCDMfS8QWq-I34Bg}\\
 \hline
- \footnotesize{ssl.gstatic.com/gb/images/i1\_1967ca6a.png} & \footnotesize{age:253629} & \footnotesize{age:253628}"}\\
+ \footnotesize{ssl.gstatic.com/gb/ima ges/i1\_1967ca6a.png} & \footnotesize{age:253629} & \footnotesize{age:253628}\\
  \hline
 
 \end{tabular}

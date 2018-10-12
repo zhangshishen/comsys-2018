@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.6-141210-2.6 (utf8.euc) (TeX Live 2015/Debian) (preloaded format=platex 2017.11.22)  9 OCT 2018 14:49
+This is e-pTeX, Version 3.14159265-p3.6-141210-2.6 (utf8.euc) (TeX Live 2015/Debian) (preloaded format=platex 2017.11.22)  12 OCT 2018 19:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -59,45 +59,52 @@ File: dvips.def 2015/12/30 v3.0k Driver-dependent file (DPC,SPQR)
 )
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/courier.sty
 Package: courier 2005/04/12 PSNFSS-v9.2a (WaS) 
-) (./as.aux)
+) (./as.aux
+
+LaTeX Warning: Label `fig:data' multiply defined.
+
+)
 \openout1 = `as.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 38.
+(Font)              <12> on input line 47.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 38.
+(Font)              <8> on input line 47.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 38.
+(Font)              <6> on input line 47.
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <9> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 47.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <9> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 47.
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 46.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 57.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 46.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 52.
-
-(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 57.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 63.
+ (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 52.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 63.
 File: img/first.eps Graphic file (type eps)
  <img/first.eps>
-Overfull \hbox (7.1778pt too wide) in paragraph at lines 66--67
+Overfull \hbox (7.1778pt too wide) in paragraph at lines 77--78
  [] 
  []
 
@@ -105,7 +112,7 @@ Overfull \hbox (7.1778pt too wide) in paragraph at lines 66--67
 
 
 ]
-Underfull \hbox (badness 1412) in paragraph at lines 87--88
+Underfull \hbox (badness 1412) in paragraph at lines 98--99
 []\JY1/mc/m/n/10 本研究ではコンテナを実装する仕組みとして
  []
 
@@ -114,68 +121,93 @@ File: img/file.eps Graphic file (type eps)
 File: img/net.eps Graphic file (type eps)
  <img/net.eps>
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 116.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 127.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 116.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 127.
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 131.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 144.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 131.
- [2]
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 144.
+ [2] [3]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 153.
+(Font)              <7> on input line 168.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 153.
+(Font)              <5> on input line 168.
+File: img/tag.eps Graphic file (type eps)
+ <img/tag.eps>
+Overfull \hbox (7.1778pt too wide) in paragraph at lines 175--176
+ [] 
+ []
+
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 210.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 251.
 
-Overfull \hbox (0.64037pt too wide) in paragraph at lines 212--212
+Overfull \hbox (0.64037pt too wide) in paragraph at lines 253--253
 []\OT1/cmr/m/n/8 user[]pref("browser.slowStartup.averageTime",
  []
 
 
-Overfull \hbox (0.64037pt too wide) in paragraph at lines 212--213
+Overfull \hbox (0.64037pt too wide) in paragraph at lines 253--254
 []\OT1/cmr/m/n/8 user[]pref("browser.slowStartup.averageTime",
  []
 
-[3] [4]
-Underfull \hbox (badness 2443) in paragraph at lines 275--277
+
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
+[]\OT1/cmr/m/n/8 Cookie:1P[]JAR=2017-12-12-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 268--269
+[]\OT1/cmr/m/n/8 Cookie:1P[]JAR=2017-12-12-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 272--272
+[]\OT1/cmr/m/n/8 ssl.gstatic.com/gb/ima
+ []
+
+[4] [5]
+Underfull \hbox (badness 2443) in paragraph at lines 337--339
 []\OT1/cmr/m/n/10 P Laper-drix, W Rudametkin, B Baudry:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 275--277
+Underfull \hbox (badness 10000) in paragraph at lines 337--339
 \OT1/cmr/m/n/10 "Blink: A moving-target ap-proach to
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 275--277
+Underfull \hbox (badness 10000) in paragraph at lines 337--339
 \OT1/cmr/m/n/10 fin-ger-print di-ver-si-fi-ca-tion" 37th IEEE
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 275--277
+Underfull \hbox (badness 10000) in paragraph at lines 337--339
 \OT1/cmr/m/n/10 Sym-po-sium on Se-cu-rity and Pri-vacy,
  []
 
 
-Underfull \hbox (badness 8094) in paragraph at lines 275--277
+Underfull \hbox (badness 8094) in paragraph at lines 337--339
 \OT1/cmr/m/n/10 Poster Ses-sion, [On-line] http://www.ieee-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 275--277
+Underfull \hbox (badness 10000) in paragraph at lines 337--339
 \OT1/cmr/m/n/10 security.org/TC/SP2016/poster-abstracts/59-
  []
 
-[5] (./as.aux) ) 
-Here is how much of TeX's memory you used:
- 690 strings out of 494824
- 8282 string characters out of 6178753
- 70127 words of memory out of 5000000
- 4153 multiletter control sequences out of 15000+600000
- 14843 words of font info for 58 fonts, out of 8000000 for 9000
- 286 hyphenation exceptions out of 8191
- 25i,10n,19p,535b,347s stack positions out of 5000i,500n,10000p,200000b,80000s
+[6] (./as.aux)
 
-Output written on as.dvi (5 pages, 31760 bytes).
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 702 strings out of 494824
+ 8410 string characters out of 6178753
+ 75127 words of memory out of 5000000
+ 4161 multiletter control sequences out of 15000+600000
+ 15614 words of font info for 61 fonts, out of 8000000 for 9000
+ 286 hyphenation exceptions out of 8191
+ 25i,10n,19p,881b,348s stack positions out of 5000i,500n,10000p,200000b,80000s
+
+Output written on as.dvi (6 pages, 38180 bytes).
