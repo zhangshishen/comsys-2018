@@ -3,7 +3,8 @@
 \citation{comsys}
 \@writefile{toc}{\contentsline {section}{\numberline {1}はじめに}{1}}
 \@writefile{toc}{\contentsline {section}{\numberline {2}双子の環境と双子のブラウザによる個人情報の検出}{1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces 双子の環境}}{2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces 双子の環境\relax }}{2}}
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
 \newlabel{figure:twin}{{1}{2}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}コンテナによる双子の環境の実装}{2}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}ファイルの差分検出}{2}}
@@ -12,37 +13,43 @@
 \newlabel{sec:prep}{{4.1}{2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}タイムスタンプの扱い}{2}}
 \newlabel{cha:timestamp}{{4.2}{2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Docker Overlay Filesystemによるファイル差分検出}}{3}}
+\citation{dynamic}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Docker Overlay Filesystemによるファイル差分検出\relax }}{3}}
 \newlabel{figure:file}{{2}{3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces MITM-proxyを用いたHTTPのメッセージの差分検出}}{3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces MITM-proxyを用いたHTTPのメッセージの差分検出\relax }}{3}}
 \newlabel{figure:network}{{3}{3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}ランダム性の排除}{3}}
 \@writefile{toc}{\contentsline {section}{\numberline {5}ネットワークメッセージの差分}{4}}
 \newlabel{sec:net}{{5}{4}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces tag protection}}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces ユーザトラッキングとタグプロテクション。上のイメージはブラウザが一回目と二回目の訪問する時に一部の個人識別子の移動ディレクション。一回目はタグないからサーバが生成して、サーバのストレージとクライアント同時に保存する。下のイメージは個人識別子を保護する時に、一回目と二回目の訪問する間で個人識別子をなんかの手段で直す。\relax }}{4}}
 \newlabel{figure:tag}{{4}{4}}
 \@writefile{toc}{\contentsline {section}{\numberline {6}差分内容の保護と隔離}{4}}
+\newlabel{cha:protect}{{6}{4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.1}ファイルの差分の対応}{4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.2}ネットワーク通信の差分の対応}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}ディレクトリのオプティマイズ}{4}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}実験}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}双子のブラウザが生成したファイルの差分}{4}}
-\newlabel{sec:file}{{7.1}{4}}
-\citation{qubes}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces 差分がないファイルと差分があるファイルの数}}{5}}
+\newlabel{sec:net}{{6.2}{4}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces 差分がないファイルと差分があるファイルの数\relax }}{5}}
 \newlabel{fig:result}{{1}{5}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces ファイルの差分の例}}{5}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces ファイルの差分の例\relax }}{5}}
 \newlabel{fig:data}{{2}{5}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}実験}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}双子のブラウザが生成したファイルの差分}{5}}
+\newlabel{sec:file}{{7.1}{5}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {7.1.1}Firefox}{5}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {7.1.2}Chrome}{5}}
 \newlabel{sec:one}{{7.1.2}{5}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.2}ネットワーク通信内容の差分}{5}}
+\citation{qubes}
 \citation{blink}
 \bibcite{qubes}{1}
 \bibcite{blink}{2}
-\bibcite{comsys}{3}
-\bibcite{web}{4}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces ネットワーク通信の差分の例}}{6}}
+\bibcite{dynamic}{3}
+\bibcite{comsys}{4}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces ネットワーク通信の差分の例\relax }}{6}}
 \newlabel{fig:data}{{3}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}プライバシ保護の評価}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces 個人識別子を保護する結果の評価。一回目の訪問する時に、ブラウザがキーワード「A」を入力し、サーバに送信する結果は、すべてA関連のデータである。二回目の訪問にはキーワード「B」を入力が、もし結果には"A"の結果が出れば個人識別子はよく保護していないとわかる\relax }}{6}}
+\newlabel{figure:secres}{{5}{6}}
 \@writefile{toc}{\contentsline {section}{\numberline {8}関連研究}{6}}
 \@writefile{toc}{\contentsline {section}{\numberline {9}まとめ}{6}}
+\bibcite{web}{5}

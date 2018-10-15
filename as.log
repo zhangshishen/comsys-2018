@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.6-141210-2.6 (utf8.euc) (TeX Live 2015/Debian) (preloaded format=platex 2018.10.15)  15 OCT 2018 14:49
+This is e-pTeX, Version 3.14159265-p3.6-141210-2.6 (utf8.euc) (TeX Live 2015/Debian) (preloaded format=platex 2018.10.15)  15 OCT 2018 21:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -59,52 +59,88 @@ File: dvips.def 2015/12/30 v3.0k Driver-dependent file (DPC,SPQR)
 )
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/courier.sty
 Package: courier 2005/04/12 PSNFSS-v9.2a (WaS) 
+)
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2016/02/04 v1.7-139 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 67.
+\captionmargin=\dimen124
+\captionmargin@=\dimen125
+\captionwidth=\dimen126
+\caption@tempdima=\dimen127
+\caption@indent=\dimen128
+\caption@parindent=\dimen129
+\caption@hangindent=\dimen130
+Package caption Info: Unknown document class (or package),
+(caption)             standard defaults will be used.
+)
+
+Package caption Warning: Unsupported document class (or package) detected,
+(caption)                usage of the caption package is not recommended.
+See the caption package documentation for explanation.
+
+Package caption Info: \@makecaption = \long macro:#1#2->\vskip \abovecaptionski
+p \iftdir \sbox \@tempboxa {#1\hskip 1zw#2}\else \sbox \@tempboxa {#1: #2}\fi \
+ifdim \wd \@tempboxa >\hsize \iftdir #1\hskip 1zw#2\relax \par \else #1: #2\rel
+ax \par \fi \else \global \@minipagefalse \hbox to\hsize {\hfil \box \@tempboxa
+ \hfil }\fi \vskip \belowcaptionskip .
+\c@ContinuedFloat=\count91
 ) (./as.aux
 
+LaTeX Warning: Label `sec:net' multiply defined.
+
+
 LaTeX Warning: Label `fig:data' multiply defined.
+
+
+LaTeX Warning: Label `figure:tag' multiply defined.
 
 )
 \openout1 = `as.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 47.
+(Font)              <12> on input line 48.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 47.
+(Font)              <8> on input line 48.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 47.
+(Font)              <6> on input line 48.
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <9> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 47.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 48.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <9> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 47.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 48.
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 57.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 58.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 57.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 63.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 58.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 64.
  (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 63.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 64.
 File: img/first.eps Graphic file (type eps)
  <img/first.eps>
-Overfull \hbox (7.1778pt too wide) in paragraph at lines 77--78
+Overfull \hbox (7.1778pt too wide) in paragraph at lines 78--79
  [] 
  []
 
@@ -112,7 +148,7 @@ Overfull \hbox (7.1778pt too wide) in paragraph at lines 77--78
 
 
 ]
-Underfull \hbox (badness 1412) in paragraph at lines 98--99
+Underfull \hbox (badness 1412) in paragraph at lines 99--100
 []\JY1/mc/m/n/10 本研究ではコンテナを実装する仕組みとして
  []
 
@@ -121,21 +157,25 @@ File: img/file.eps Graphic file (type eps)
 File: img/net.eps Graphic file (type eps)
  <img/net.eps>
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 127.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 128.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 127.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 128.
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 144.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 145.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 144.
- [2] [3]
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 145.
+ [2]
+
+LaTeX Warning: Citation `dynamic' on page 3 undefined on input line 165.
+
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 168.
+(Font)              <7> on input line 169.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 168.
+(Font)              <5> on input line 169.
+[3]
 File: img/tag.eps Graphic file (type eps)
  <img/tag.eps>
-Overfull \hbox (7.1778pt too wide) in paragraph at lines 177--178
+Overfull \hbox (7.1778pt too wide) in paragraph at lines 178--179
  [] 
  []
 
@@ -167,47 +207,68 @@ Underfull \hbox (badness 10000) in paragraph at lines 274--274
  []
 
 [4] [5]
-Underfull \hbox (badness 2443) in paragraph at lines 339--341
+
+LaTeX Warning: Reference `figure:secres' on page 6 undefined on input line 317.
+
+
+File: img/secres.eps Graphic file (type eps)
+<img/secres.eps>
+Overfull \hbox (7.1778pt too wide) in paragraph at lines 321--322
+ [] 
+ []
+
+
+Underfull \hbox (badness 2443) in paragraph at lines 352--354
 []\OT1/cmr/m/n/10 P Laper-drix, W Rudametkin, B Baudry:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 339--341
+Underfull \hbox (badness 10000) in paragraph at lines 352--354
 \OT1/cmr/m/n/10 "Blink: A moving-target ap-proach to
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 339--341
+Underfull \hbox (badness 10000) in paragraph at lines 352--354
 \OT1/cmr/m/n/10 fin-ger-print di-ver-si-fi-ca-tion" 37th IEEE
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 339--341
+Underfull \hbox (badness 10000) in paragraph at lines 352--354
 \OT1/cmr/m/n/10 Sym-po-sium on Se-cu-rity and Pri-vacy,
  []
 
 
-Underfull \hbox (badness 8094) in paragraph at lines 339--341
+Underfull \hbox (badness 8094) in paragraph at lines 352--354
 \OT1/cmr/m/n/10 Poster Ses-sion, [On-line] http://www.ieee-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 339--341
+Underfull \hbox (badness 10000) in paragraph at lines 352--354
 \OT1/cmr/m/n/10 security.org/TC/SP2016/poster-abstracts/59-
  []
 
-[6] (./as.aux)
+
+Underfull \hbox (badness 1406) in paragraph at lines 355--356
+\OT1/cmr/m/n/10 highly par-al-lel javascript web ap-pli-ca-tions"
+ []
+
+[6] [7
+
+] (./as.aux)
+
+LaTeX Warning: There were undefined references.
+
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 702 strings out of 494824
- 8410 string characters out of 6178753
- 74129 words of memory out of 5000000
- 4161 multiletter control sequences out of 15000+600000
+ 1775 strings out of 494824
+ 27770 string characters out of 6178753
+ 104685 words of memory out of 5000000
+ 5227 multiletter control sequences out of 15000+600000
  15614 words of font info for 61 fonts, out of 8000000 for 9000
  286 hyphenation exceptions out of 8191
- 25i,10n,19p,881b,348s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,10n,39p,901b,431s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on as.dvi (6 pages, 39488 bytes).
+Output written on as.dvi (7 pages, 42612 bytes).
