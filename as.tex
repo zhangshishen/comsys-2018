@@ -167,7 +167,9 @@ PCで動作するアプリケーションは、Webブラウザのように明示
 \label{sec:net}
 本研究では、まず、HTTPを対象としてネットワークメッセージをキャプチャする。コンテナ内で実行されるプログラムが送受信されているメッセージは、HTTPSにより暗号化されてることがある。そして、多数なHTML5やJavascriptの新機能もよく支持することが要求されている。そこで、本研究では、MITM-Proxy(Man-In-The-Middle-Proxy)\footnote{https://mitmproxy.org/}を使ってHTTPやHTTPSの通信をキャプチャする。MTIM-ProxyはHTTPS通信のキャプチャができ、Keep-Aliveなどの持続的接続機能もつける。
 
-ネットワーク通信の差分取る仕組みを図\ref{figure:network}に示す。HTTP通信の内容をKey-Valueの形式に変える。Keyとしては現在RequestのURLをQuery Stringを排除した部分と訪問の回数を用いている。Valueは残りのQuery String, Header, body, Response Header, bodyにする。これらのデータを\ref{sec:prep}節で述べたファイル差分検出モジュールに与える。
+ネットワーク通信の差分取る仕組みを図\ref{figure:network}に示す。HTTP通信の内容をKey-Valueの形式に変える。Keyとしては現在RequestのURLをQuery Stringを排除した部分と訪問の回数を用いている。Valueは残りのQuery String, Header, body, Response Header, bodyにする。Dumpした内容はHTTP通信のヘッダContent-TypeやContent-Encodingによる分類して、ふさわしい処理を行う。例えば"Content-Encoding : gzip"ヘッダの通信は圧縮した形を展開し、"Transfer-Encoding : chunked"ヘッダの通信はchunkの属性のよって、多数のChunkを組み合わせる。それから、全部のテキストファイル、例えばhtmlやjavascript、cssなどのファイルはテキストファイルとして\ref{sec:prep}節で述べたファイル差分検出モジュールに与える。テキストファイルではない通信、例えばイメージ,faviconなどの通信はバイナリファイルとして扱う。
+
+
 
 
 \begin{figure}[ht]
@@ -192,10 +194,10 @@ PCで動作するアプリケーションは、Webブラウザのように明示
 \item{・データベース: }
 テキストファイルと同じように差分タグを検出、保存する。タグの直すはawkではなく、データベースの管理ツールを利用して簡単で直せる。関係型データベースはSQLのupdateを利用し、No-SQLは直接にKey-Valueを直す。
 \item{・バイナリファイル: }
-
+バイナリファイルの差分は直接的にdiffコマンドを使うのができないから、バイナリファイル中のテキストの部分を引き出して差分を取る。
 \end{description}
 \subsection{ネットワーク通信の差分の対応}
-ネットワークの通信の差分タグは通信中にプロキシで直せるが、ブラウザの動作に影響があるから
+ネットワークの通信の差分タグは通信中にMITM-Proxyによるファイルシステムに保存して、
 \subsection{ディレクトリのオプティマイズ}
 ネットワークの通信の差分タグは通信中にプロキシで直せるが、ブラウザの動作に影響があるから
 
